@@ -58,16 +58,12 @@ class App extends Component {
       bulletRect.top < enemyRect.bottom &&
       bulletRect.bottom > enemyRect.top;
 
-    if (isColliding) {
-      this.setState({ enemyKey: Date.now() });
-    }
-
     return isColliding;
   };
 
-  removeBullet = (bulletId) => {
+  removeBullet = (id) => {
     this.setState((prevState) => ({
-      bullets: prevState.bullets.filter((bullet) => bullet.id !== bulletId),
+      bullets: prevState.bullets.filter((bullet) => bullet.id !== id),
     }));
   };
 
@@ -90,6 +86,8 @@ class App extends Component {
                 id={bullet.id}
                 leftPixels={bullet.leftPixels}
                 removeBullet={this.removeBullet}
+                checkCollision={this.checkCollision}
+                enemyRef={enemyRef}
               />
             ))}
           </div>
