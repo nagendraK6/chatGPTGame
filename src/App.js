@@ -58,6 +58,10 @@ class App extends Component {
       bulletRect.top < enemyRect.bottom &&
       bulletRect.bottom > enemyRect.top;
 
+    if (isColliding) {
+      this.setState({ enemyKey: Date.now() });
+    }
+
     return isColliding;
   };
 
@@ -86,8 +90,6 @@ class App extends Component {
                 id={bullet.id}
                 leftPixels={bullet.leftPixels}
                 removeBullet={this.removeBullet}
-                checkCollision={this.checkCollision}
-                enemyRef={enemyRef}
               />
             ))}
           </div>
