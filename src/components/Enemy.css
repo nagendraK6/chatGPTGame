@@ -1,0 +1,11 @@
+.enemy {
+    width: 30px;
+    height: 30px;
+    background-image: url('https://images.saymedia-content.com/.image/t_share/MTc0MzA1MDU1NDM5MDcxMTAw/top-50-coolest-enemies-and-monsters-in-video-games.jpg');
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  

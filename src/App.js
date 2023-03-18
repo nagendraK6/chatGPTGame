@@ -1,25 +1,98 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import Godzilla from "./components/Godzilla";
+import Enemy from "./components/Enemy";
+import Bullet from "./components/Bullet";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bullets: [],
+      gameStarted: false,
+      enemyKey: Date.now(),
+    };
+  }
+
+  startGame = () => {
+    this.setState({ gameStarted: true });
+  };
+
+  shootBullet = (leftPixels, enemyRef) => {
+    const newBullet = {
+      id: Date.now(),
+      leftPixels: leftPixels,
+    };
+    this.setState((prevState) => ({
+      bullets: [...prevState.bullets, newBullet],
+    }));
+
+    const bulletInterval = setInterval(() => {
+      const bulletElement = document.getElementById(newBullet.id);
+      const enemyElement = enemyRef.current;
+
+      if (!bulletElement || !enemyElement) {
+        clearInterval(bulletInterval);
+        return;
+      }
+
+      const bulletRect = bulletElement.getBoundingClientRect();
+      const enemyRect = enemyElement.getBoundingClientRect();
+
+      if (this.checkCollision(bulletRect, enemyRect)) {
+        this.setState((prevState) => ({
+          bullets: prevState.bullets.filter(
+            (bullet) => bullet.id !== newBullet.id
+          ),
+          enemyKey: Date.now(),
+        }));
+        clearInterval(bulletInterval);
+      }
+    }, 50);
+  };
+
+  checkCollision = (bulletRect, enemyRect) => {
+    const isColliding =
+      bulletRect.left < enemyRect.right &&
+      bulletRect.right > enemyRect.left &&
+      bulletRect.top < enemyRect.bottom &&
+      bulletRect.bottom > enemyRect.top;
+
+    if (isColliding) {
+      this.setState({ enemyKey: Date.now() });
+    }
+
+    console.log(isColliding);
+    return isColliding;
+  };
+
+  render() {
+    const { bullets, gameStarted, enemyKey } = this.state;
+    const enemyRef = React.createRef();
+
+    return (
+      <div className="App">
+        <h1>Godzilla Shooting Game</h1>
+        {!gameStarted ? (
+          <button onClick={this.startGame}>Start Game</button>
+        ) : (
+          <div className="game-container">
+            <Godzilla onShoot={this.shootBullet} enemyRef={enemyRef} />
+            <Enemy key={enemyKey} ref={enemyRef} />
+            {bullets.map((bullet) => (
+              <Bullet
+                key={bullet.id}
+                id={bullet.id}
+                leftPixels={bullet.leftPixels}
+                removeBullet={this.removeBullet}
+                enemyKey={enemyKey}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
 export default App;
