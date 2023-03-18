@@ -12,6 +12,7 @@ class App extends Component {
       gameStarted: false,
       enemyKey: Date.now(),
     };
+    this.enemyRef = React.createRef();
   }
 
   startGame = () => {
@@ -44,9 +45,9 @@ class App extends Component {
           bullets: prevState.bullets.filter(
             (bullet) => bullet.id !== newBullet.id
           ),
+          enemyKey: Date.now(),
         }));
         clearInterval(bulletInterval);
-        this.setState({ enemyKey: Date.now() });
       }
     }, 50);
   };
@@ -83,7 +84,7 @@ class App extends Component {
           <button onClick={this.startGame}>Start Game</button>
         ) : (
           <div className="game-container">
-            <Godzilla onShoot={this.shootBullet} enemyRef={enemyRef} />
+            <Godzilla onShoot={this.shootBullet} enemyRef={this.enemyRef} />
             <Enemy key={enemyKey} ref={enemyRef} />
             {bullets.map((bullet) => (
               <Bullet
