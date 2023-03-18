@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./Enemy.css";
-
 class Enemy extends Component {
   constructor(props) {
     super(props);
@@ -12,6 +11,12 @@ class Enemy extends Component {
   randomPosition = () => {
     return Math.floor(Math.random() * 100);
   };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.key !== prevProps.key) {
+      this.setState({ left: this.randomPosition() });
+    }
+  }
 
   render() {
     const { left } = this.state;
