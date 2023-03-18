@@ -47,11 +47,19 @@ class App extends Component {
           enemyKey: Date.now(),
         }));
         clearInterval(bulletInterval);
+        return;
       }
+
+      this.setState((prevState) => ({
+        bullets: prevState.bullets.filter(
+          (bullet) => bullet.id !== newBullet.id
+        ),
+      }));
     }, 50);
   };
 
   checkCollision = (bulletRect, enemyRect) => {
+    console.log("Checking collision");
     const isColliding =
       bulletRect.left < enemyRect.right &&
       bulletRect.right > enemyRect.left &&
@@ -65,9 +73,9 @@ class App extends Component {
     return isColliding;
   };
 
-  removeBullet = (id) => {
+  removeBullet = (bulletId) => {
     this.setState((prevState) => ({
-      bullets: prevState.bullets.filter((bullet) => bullet.id !== id),
+      bullets: prevState.bullets.filter((bullet) => bullet.id !== bulletId),
     }));
   };
 
