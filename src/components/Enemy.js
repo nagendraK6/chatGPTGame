@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Enemy.css";
+
 class Enemy extends Component {
   constructor(props) {
     super(props);
@@ -13,8 +14,10 @@ class Enemy extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (this.props.key !== prevProps.key) {
-      this.setState({ left: this.randomPosition() });
+    if (prevProps.enemyKey !== this.props.enemyKey) {
+      this.setState({
+        left: this.randomPosition(),
+      });
     }
   }
 

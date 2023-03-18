@@ -27,7 +27,6 @@ class App extends Component {
       bullets: [...prevState.bullets, newBullet],
     }));
 
-    console.log("Shooting called");
     const bulletInterval = setInterval(() => {
       const bulletElement = document.getElementById(newBullet.id);
       const enemyElement = enemyRef.current;
@@ -45,17 +44,10 @@ class App extends Component {
           bullets: prevState.bullets.filter(
             (bullet) => bullet.id !== newBullet.id
           ),
-          enemyKey: Date.now(),
         }));
         clearInterval(bulletInterval);
-        return;
+        this.setState({ enemyKey: Date.now() });
       }
-
-      this.setState((prevState) => ({
-        bullets: prevState.bullets.filter(
-          (bullet) => bullet.id !== newBullet.id
-        ),
-      }));
     }, 50);
   };
 
