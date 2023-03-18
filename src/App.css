@@ -1,3 +1,9 @@
+body {
+  background-image: url('bg-image.jpg');
+  background-repeat: no-repeat;
+  background-size: fill;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +41,20 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.App button:hover {
+  background-color: #e53935;
 }

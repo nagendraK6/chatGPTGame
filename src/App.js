@@ -27,6 +27,7 @@ class App extends Component {
       bullets: [...prevState.bullets, newBullet],
     }));
 
+    console.log("Shooting called");
     const bulletInterval = setInterval(() => {
       const bulletElement = document.getElementById(newBullet.id);
       const enemyElement = enemyRef.current;
