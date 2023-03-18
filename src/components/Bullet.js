@@ -6,17 +6,7 @@ class Bullet extends Component {
     super(props);
     this.state = {
       top: 90,
-      isColliding: false,
     };
-  }
-
-  componentDidUpdate() {
-    const { top } = this.state;
-
-    if (top <= 0) {
-      clearInterval(this.moveInterval);
-      this.props.removeBullet(this.props.id);
-    }
   }
 
   componentDidMount() {
@@ -24,23 +14,16 @@ class Bullet extends Component {
       this.setState((prevState) => ({
         top: prevState.top - 2,
       }));
-
-      const { id, removeBullet } = this.props;
-      const bulletElement = document.getElementById(id);
-      const bulletRect = bulletElement.getBoundingClientRect();
-      const enemyElement = document.querySelector(".enemy");
-      const enemyRect = enemyElement.getBoundingClientRect();
-
-      if (
-        bulletRect.left < enemyRect.right &&
-        bulletRect.right > enemyRect.left &&
-        bulletRect.top < enemyRect.bottom &&
-        bulletRect.bottom > enemyRect.top
-      ) {
-        this.setState({ isColliding: true });
-        this.props.removeBullet(this.props.id);
-      }
     }, 50);
+  }
+
+  componentDidUpdate() {
+    const { top } = this.state;
+
+    if (top <= 0) {
+      clearInterval(this.moveInterval);
+      this.props.removeBullet(this.props.id); // Call removeBullet as a prop
+    }
   }
 
   componentWillUnmount() {
@@ -49,12 +32,12 @@ class Bullet extends Component {
 
   render() {
     const { leftPixels, id } = this.props;
-    const { top, isColliding } = this.state;
+    const { top } = this.state;
 
     return (
       <div
         id={id}
-        className={`bullet ${isColliding ? "colliding" : ""}`}
+        className="bullet"
         style={{
           left: `${leftPixels}px`,
           top: `${top}%`,

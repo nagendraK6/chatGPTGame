@@ -62,8 +62,13 @@ class App extends Component {
       this.setState({ enemyKey: Date.now() });
     }
 
-    console.log(isColliding);
     return isColliding;
+  };
+
+  removeBullet = (bulletId) => {
+    this.setState((prevState) => ({
+      bullets: prevState.bullets.filter((bullet) => bullet.id !== bulletId),
+    }));
   };
 
   render() {
@@ -85,7 +90,6 @@ class App extends Component {
                 id={bullet.id}
                 leftPixels={bullet.leftPixels}
                 removeBullet={this.removeBullet}
-                enemyKey={enemyKey}
               />
             ))}
           </div>
